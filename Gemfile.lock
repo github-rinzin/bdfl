@@ -217,11 +217,8 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   byebug
   capybara (>= 3.26)
-<<<<<<< HEAD
   figaro
-=======
   devise
->>>>>>> 676e0b0a28050216058b0a29aa2bc5da7373f9b7
   jbuilder (~> 2.7)
   puma (~> 5.0)
   rack-mini-profiler (~> 2.0)
