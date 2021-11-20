@@ -1,0 +1,17 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <%= link_to 'bhutan duty free limited', root_path, class: "navbar-brand text-capitalize" %>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto">
+      <% if user_signed_in? %>
+        <%= link_to 'Accounts', accounts_path, class: "nav-item nav-link" %>
+        <%= link_to 'Posts', posts_path, class: "nav-item nav-link" %>
+        <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: "nav-item nav-link" %>
+      <% else %>
+        <%= link_to 'Log In',new_user_session_path, class: "nav-item nav-link" %>
+      <% end %>
+    </div>
+  </div>
+</nav>

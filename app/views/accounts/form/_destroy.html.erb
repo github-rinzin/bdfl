@@ -1,0 +1,18 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-danger btn-sm ml-1" data-toggle="modal" data-target="#deleteUserModal">
+  Destroy
+</button>
+<!-- Modal -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        All the data related to this user will be deleted as well. Are you sure you want to delete it anyway? 
+      </div>
+       <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
+        <%= link_to 'Yes, Delete anyway', user_registration_path, method: :delete, class: "btn btn-sm btn-danger text-light" %>
+      </div>
+    </div>
+  </div>
+</div>

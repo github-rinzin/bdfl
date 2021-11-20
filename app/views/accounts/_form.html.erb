@@ -1,0 +1,3 @@
+<%= form_for user,url: account_url(id: user.id), method: :put do |form| %>
+    <%= form.submit user.is_blocked ? "block" : "unblock", class: "btn btn-warning btn-sm" %>
+<% end %>

@@ -1,0 +1,31 @@
+<%= render "components/alert" %>
+<div class="w-75 mx-auto mt-4">
+  <%= render "modal" %>
+  <table class="table table-sm table-bordered">
+    <thead>
+      <tr class="text-capitalize">
+        <th>cid</th>
+        <th>name</th>
+        <th>phone</th>
+        <th>email</th>
+        <th>Is blocked</th>
+        <th>Operation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.cid %></td>
+          <td><%= user.name %></td>
+          <td><%= user.phone %></td>
+          <td><%= user.email %></td>
+          <td><%= user.is_blocked %></td>
+          <td class="d-flex">
+            <%= render 'accounts/form/block', user:user %>
+            <%= render "accounts/form/destroy", user:user %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,35 @@
+<%= render "components/alert" %>
+<div class="w-75 mx-auto mt-4">
+  <%= link_to 'New Post', new_post_path, class:"btn btn-sm btn-success text-light my-2" %>
+  <table class="table table-sm table-bordered">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Des</th>
+        <th>Operation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @posts.each do |post| %>
+        <tr>
+          <td><%= post.title %></td>
+          <td><%= post.des %></td>
+          <td>
+            <%= link_to 'Show', post, class: "btn btn-sm btn-primary text-light" %>
+            <%= link_to 'Edit', edit_post_path(post), class: "btn btn-sm btn-warning text-light" %>
+            <%= render "delete_modal", post:post %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <br>
+  <% @posts.each do |post| %>
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title"><%= post.title %></h5>
+        <a href="#" class="card-link"><%= link_to 'Show', post %></a>
+      </div>
+    </div>
+  <% end %>
+</div>
