@@ -1,7 +1,7 @@
 <%= render "components/alert" %>
 <div class="w-75 mx-auto mt-4">
   <%= render "modal" %>
-  <table class="table table-sm table-bordered">
+  <table class="table table-sm table-bordered" id="accounts-datatable">
     <thead>
       <tr class="text-capitalize">
         <th>cid</th>
@@ -29,3 +29,8 @@
     </tbody>
   </table>
 </div>
+<script>
+  $(document).ready(() => {
+    $("#accounts-datatable").dataTable();
+  });
+</script>

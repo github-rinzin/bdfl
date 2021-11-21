@@ -1,12 +1,13 @@
 <%= render "components/alert" %>
 <div class="w-75 mx-auto mt-4">
-  <%= link_to 'New Post', new_post_path, class:"btn btn-sm btn-success text-light my-2" %>
-  <table class="table table-sm table-bordered">
+  <%# <%= link_to 'New Post', new_post_path, class:"btn btn-sm btn-success text-light my-2"  %>
+  <%= render "new_modal", post: Post.new%>
+  <table class="table table-sm table-bordered" id="posts-datatable">
     <thead>
       <tr>
         <th>Title</th>
         <th>Des</th>
-        <th>Operation</th>
+        <th data-orderable="false">Operation</th>
       </tr>
     </thead>
     <tbody>
@@ -23,13 +24,9 @@
       <% end %>
     </tbody>
   </table>
-  <br>
-  <% @posts.each do |post| %>
-    <div class="card" style="width: 18rem;">
-      <div class="card-body">
-        <h5 class="card-title"><%= post.title %></h5>
-        <a href="#" class="card-link"><%= link_to 'Show', post %></a>
-      </div>
-    </div>
-  <% end %>
 </div>
+<script>
+  $(document).ready(() => {
+    $("#posts-datatable").dataTable();
+  });
+</script>
