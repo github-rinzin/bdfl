@@ -2,7 +2,6 @@
   <% if product.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
-
       <ul>
         <% product.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -10,23 +9,26 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
+  <div class="form-group field">
     <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, class: "form-control" %>
   </div>
-
-  <div class="field">
+  <div class="form-group field">
     <%= form.label :price %>
-    <%= form.number_field :price %>
+    <%= form.number_field :price, class: "form-control" %>
   </div>
-
-  <div class="field">
+  <div class="form-group field">
     <%= form.label :quantity %>
-    <%= form.number_field :quantity %>
+    <%= form.number_field :quantity, class: "form-control" %>
   </div>
-
+  <% if product.image.attached? %>
+    <%= image_tag product.image, style: "width: 50px; display:flex;", class: "form-control" %>
+  <% end %>
+  <div class="form-group field">
+    <%= form.label :image %>
+    <%= form.file_field :image, class: "form-control-file", class: "form-control" %>
+  </div>
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "save", class: "btn btn-sm btn-primary"%>
   </div>
 <% end %>

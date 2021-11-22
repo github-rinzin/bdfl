@@ -1,6 +1,9 @@
 <%= render "components/alert" %>
 <div class="w-75 mx-auto mt-4">
-  <%= render "modal" %>
+  <div class="d-flex flex-row align-items-center">
+    <h1>Accounts</h1>
+    <%= render "modal" %>
+  </div>
   <table class="table table-sm table-bordered" id="accounts-datatable">
     <thead>
       <tr class="text-capitalize">
@@ -22,17 +25,17 @@
           <td><%= user.email %></td>
           <td><%= ! user.is_blocked ? "Blocked" : "Not Blocked" %></td>
           <td><%= user.has_outlet ? "Yes" : "No" %>
-          <td class="d-flex">
-            <%= render 'accounts/form/block', user:user %>
-            <%= render "accounts/form/destroy", user:user %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
-<script>
-  $(document).ready(() => {
-    $("#accounts-datatable").dataTable();
-  });
-</script>
+            <td class="d-flex">
+              <%= render 'accounts/form/block', user:user %>
+              <%= render "accounts/form/destroy", user:user %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    $(document).ready(() => {
+      $("#accounts-datatable").dataTable();
+    });
+  </script>
