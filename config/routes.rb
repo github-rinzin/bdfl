@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :products
   resources :posts
   resources :news
   root "root#index"
