@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @outlet.name %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @outlet.location %>
+</p>
+
+<%= link_to 'Edit', edit_outlet_path(@outlet) %> |
+<%= link_to 'Back', outlets_path %>

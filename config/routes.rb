@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
+  resources :accounts
+  resources :outlets
   resources :products
   resources :posts
   resources :news
-  root "root#index"
   devise_for :users
-  resources :accounts
+  root "root#index"
 end

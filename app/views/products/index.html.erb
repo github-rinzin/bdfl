@@ -1,43 +1,19 @@
-<%= render 'components/alert' %>
-<div class="w-75 mx-auto mt-2">
-  <div class="d-flex flex-row align-items-center">
-    <h1>Products</h1>
-    <%= link_to 'New Product', new_product_path, class:"ml-2 btn btn-sm btn-success text-light་" %>
-  </div>
-  <table class="table table-bordered table-sm" id="product-datatable">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Quantity</th>
-        <th>image</th>
-        <th data-orderable="false">Operation</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @products.each do |product| %>
-        <tr>
-          <td><%= product.name %></td>
-          <td><%= product.price %></td>
-          <td><%= product.quantity %></td>
-          <td>
-            <% if product.image.attached? %>
-              <%= image_tag product.image, style: "width: 50px; display:block;" %>
-            <% end %>
-          </td>
-          <td>
-            <%= link_to 'Show', product, class: "btn btn-sm btn-primary text-light" %>
-            <%= link_to 'Edit', edit_product_path(product), class: "btn btn-sm btn-warning text-light" %>
-            <%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-danger text-light" %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <br>
+<div class="d-flex align-items-center justify-content-around flex-row flex-wrap mx-auto">
+  <% @products.each do |product| %>
+    <div class="card m-1 shadow" style="width: 18rem;">
+      <%= image_tag  product.image, class: "card-img-top"%>
+      <div class="card-body">
+        <h5 class="card-title"><%= product.name %></h5>
+        <p class="card-text">Price: Nu.<%= product.price %> <br>
+          <% if product.quantity == 0 %>
+            Out of stock!
+          <% else %>
+            Quantity:<%= product.quantity %> Units
+          </p>
+         <%= render 'invoice-modal-btn' %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 </div>
-<script>
-  $(document).ready(() => {
-    $("#product-datatable").dataTable();
-  });
-</script>
+<hr>

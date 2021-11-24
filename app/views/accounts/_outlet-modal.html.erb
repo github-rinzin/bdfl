@@ -1,0 +1,11 @@
+<button type="button" class="btn btn-success btn-sm assign-outlet-btn" data-toggle="modal" data-target="#assignOutletModal" data-user="<%= user.id %>">
+  Assign outlet
+</button>
+<script>
+  $(document).ready( () => {
+    $("#assignOutletModal").on('show.bs.modal', (e) => {
+     console.log( $(e.relatedTarget).data('user'));
+      $("#id-input").val($(e.relatedTarget).data('user'));
+    });
+  });
+</script>
