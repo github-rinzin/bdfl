@@ -33,6 +33,7 @@ class OutletsController < ApplicationController
     respond_to do |format|
       # if !$user.has_outlet
         if @outlet.save
+          
           id = @outlet.user_id
           # find user with above id
           @user = User.find(id)

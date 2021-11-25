@@ -3,7 +3,7 @@ class AccountsController < ApplicationController
     def index
         @users = User.all
     end
-      
+    
     def create
         @email = params[:email]
         # AdminMailer.with(email:@email).invite_user.deliver
