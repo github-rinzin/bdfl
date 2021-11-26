@@ -1,0 +1,19 @@
+<div class="d-flex align-items-center justify-content-around flex-row flex-wrap mx-auto">
+  <% @products.each do |product| %>
+    <div class="card m-1 shadow" style="width: 18rem;">
+      <%= image_tag  product.image, class: "card-img-top"%>
+      <div class="card-body">
+        <h5 class="card-title"><%= product.name %></h5>
+        <p class="card-text">Price: Nu.<%= product.price %> <br>
+          <% if product.quantity == 0 %>
+            Out of stock!
+          <% else %>
+            Quantity:<%= product.quantity %> Units
+          </p>
+         <%= render 'invoice-modal-btn' %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+<hr>

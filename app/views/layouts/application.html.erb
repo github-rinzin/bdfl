@@ -17,8 +17,26 @@
     
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <style>
+      .btn-success:hover {
+        color: #28a745;
+        background-color: white;
+      }
+      .btn-warning:hover {
+        color: #ffc107;
+        background-color: white;
+      }
+      .btn-danger:hover {
+        background-color: red;
+      }
+      .btn-primary:hover {
+        color: #007bff;
+        background-color: white;
+      }
+    </style>
   </head>
-  <body class="m-0">
+  <body class="container-fluid m-0">
     <%= render "components/navbar" %>
     <%= yield %>
   </body>

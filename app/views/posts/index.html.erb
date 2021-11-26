@@ -1,7 +1,9 @@
 <%= render "components/alert" %>
-<div class="w-75 mx-auto mt-4">
-  <%# <%= link_to 'New Post', new_post_path, class:"btn btn-sm btn-success text-light my-2"  %>
-  <%= render "new_modal", post: Post.new%>
+<div class="mx-auto mt-4">
+  <div class="d-flex flex-row align-items-center">
+    <h1>Posts</h1>
+    <%= render "new_modal", post: Post.new%>
+  </div>
   <table class="table table-sm table-bordered" id="posts-datatable">
     <thead>
       <tr>

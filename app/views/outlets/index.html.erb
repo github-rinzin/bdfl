@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+<div class="d-flex flex-row align-items-center">
+  <h1>Outlets</h1>
+</div>
+<table id="outlet-table" class="table table-sm table-bordered">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Location</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @outlets.each do |outlet| %>
+      <tr>
+        <td><%= outlet.name %></td>
+        <td><%= outlet.location %></td>
+        <td><%= link_to 'Show', outlet %></td>
+        <td><%= link_to 'Edit', edit_outlet_path(outlet) %></td>
+        <td><%= link_to 'Destroy', outlet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<script>
+  $(document).ready(() => {
+    $("#outlet-table").dataTable();
+  });
+</script>
