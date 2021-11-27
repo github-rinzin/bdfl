@@ -1,8 +1,10 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
   
   # GET /products or /products.json
   def index
+    authorize Product
     @products = Product.all
   end
 
@@ -21,6 +23,7 @@ class ProductsController < ApplicationController
 
   # POST /products or /products.json
   def create
+    authorize Product
     @product = current_user.outlet.products.create(product_params)
     # user.avatar.attach(params[:avatar])
     # @product.image.attach(params[:image])
@@ -39,6 +42,7 @@ class ProductsController < ApplicationController
 
   # PATCH/PUT /products/1 or /products/1.json
   def update
+    authorize @product
     # respond_to do |format|
       if @product.update(product_params)
         # format.html { redirect_to @product, notice: "Product was successfully updated." }
@@ -54,6 +58,7 @@ class ProductsController < ApplicationController
 
   # DELETE /products/1 or /products/1.json
   def destroy
+    authorize @product
     @product.destroy
     respond_to do |format|
       format.html { redirect_to products_url, notice: "Product was successfully destroyed." }

@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   resources :news
   devise_for :users
   root "root#index"
+  post "role", to: "root#changeRole"
 end

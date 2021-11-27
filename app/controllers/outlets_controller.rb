@@ -3,11 +3,9 @@ class OutletsController < ApplicationController
 
   # GET /outlets or /outlets.json
   def index
-    if current_user.is_super_admin
+    
       @outlets = Outlet.all
-    else
-      redirect_to root_path
-    end
+   
   end
 
   # GET /outlets/1 or /outlets/1.json
@@ -25,7 +23,7 @@ class OutletsController < ApplicationController
 
   # POST /outlets or /outlets.json
   def create
-    if current_user.is_super_admin
+  
     
       @outlet = Outlet.new(outlet_params)
       
@@ -59,9 +57,7 @@ class OutletsController < ApplicationController
         #     format.json { render json: @outlet.errors, status: :unprocessable_entity }
         # end
       end
-    else
-      redirect_to root_path
-    end
+    
   end
 
   # PATCH/PUT /outlets/1 or /outlets/1.json

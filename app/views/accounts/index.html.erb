@@ -1,5 +1,5 @@
 <%= render "components/alert" %>
-<div class="w-75 mx-auto mt-4">
+<div class=" mx-auto mt-4">
   <div class="d-flex flex-row align-items-center">
     <h1>Accounts</h1>
     <%= render "modal" %>
@@ -13,6 +13,8 @@
         <th>email</th>
         <th>Is blocked</th>
         <th>Has outlet</th>
+        <th>Role</th>
+        <th>Edit Role</th>
         <th data-orderable="false">Operation</th>
       </tr>
     </thead>
@@ -23,13 +25,29 @@
           <td><%= user.name %></td>
           <td><%= user.phone %></td>
           <td><%= user.email %></td>
-          <td><%= ! user.is_blocked ? "Blocked" : "Not Blocked" %></td>
+          <td><%= !user.is_blocked ? "Blocked" : "Not Blocked" %></td>
           <td>
             <% if !user.has_outlet %>
               <%= render 'outlet-modal', user:user %>
+            <% else %>
+            Yes
             <% end %>
           </td>
-          <td class="d-flex">
+          <td><%= user.role.name %></td>
+          <td>
+            <% if current_user.is_super_admin? %>
+              <%= form_with url: role_path  do |form|  %>
+                <input type="hidden" name="user" value="<%= user.id%>">
+                <select name="role" id="role">
+                  <% @roles.each do |role| %>
+                    <option value="<% role.id %>"><%= role.name%></option>
+                  <% end %>
+                </select>
+                <%= form.submit "Change", class: "btn btn-sm"%>
+              <% end %>
+            <% end %>
+          </td>
+          <td class="d-flex align-items-center">
             <%= render 'accounts/form/block', user:user %>
             <%= render "accounts/form/destroy", user:user %>
           </td>
@@ -58,9 +76,7 @@
             <%= form.label:"Address line 1" %>
             <%= form.text_field :"outlet[location]", class: "form-control form-control-sm" %>
           </div>
-
           <input id="id-input" type="hidden" name="outlet[user_id]">
-          
           <div class="actions">
             <%= form.submit class: "btn btn-success btn-sm" %>
           </div>
@@ -69,7 +85,6 @@
     </div>
   </div>
 </div>
-
 <script>
   $(document).ready(() => {
     $("#accounts-datatable").dataTable();

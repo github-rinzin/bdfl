@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   has_many :invoices, dependent: :destroy
   has_many :posts, dependent: :destroy
-  has_one :outlet,dependent: :destroy
+  has_one :outlet, dependent: :destroy
+  belongs_to :role
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -12,15 +13,15 @@ class User < ApplicationRecord
 
 
   # super admin
-  def is_super_admin 
+  def is_super_admin? 
     self.role_id == Role.sadmin
   end
   # bdfl admin
-  def is_admin
+  def is_admin?
     self.role_id == Role.admin
   end
   # customer
-  def is_customer
+  def is_customer?
     self.role_id == Role.customer
   end
 

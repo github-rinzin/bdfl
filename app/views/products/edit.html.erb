@@ -1,7 +1,10 @@
- <p id="" class=" text-dark pt-2"><%= notice %></p>
-<div class="w-50 mx-auto">
-  <h1>Editing Product</h1>
-  <%= render 'form', product: @product %>
-  <%= link_to 'Show', @product %> |
-  <%= link_to 'Back', products_path %>
-</div>
+ 
+<p id="" class=" text-dark pt-2"><%= notice %></p>
+<% if policy(@product).update? %>
+  <div class="w-50 mx-auto">
+    <h1>Editing Product</h1>
+    <%= render 'form', product: @product %>
+    <%= link_to 'Show', @product %> |
+    <%= link_to 'Back', products_path %>
+  </div>
+<% end %>

@@ -2,7 +2,9 @@
 <div class="mx-auto mt-4">
   <div class="d-flex flex-row align-items-center">
     <h1>Posts</h1>
-    <%= render "new_modal", post: Post.new%>
+    <% if policy(Post).create? %>
+      <%= render "new_modal", post: Post.new%>
+    <% end %>
   </div>
   <table class="table table-sm table-bordered" id="posts-datatable">
     <thead>
@@ -19,8 +21,10 @@
           <td><%= post.des %></td>
           <td>
             <%= link_to 'Show', post, class: "btn btn-sm btn-primary text-light" %>
-            <%= link_to 'Edit', edit_post_path(post), class: "btn btn-sm btn-warning text-light" %>
-            <%= render "delete_modal", post:post %>
+            <% if policy(post).update? %>
+              <%= link_to 'Edit', edit_post_path(post), class: "btn btn-sm btn-warning text-light" %>
+              <%= render "delete_modal", post:post %>
+            <% end %>
           </td>
         </tr>
       <% end %>

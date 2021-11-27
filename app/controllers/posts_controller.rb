@@ -22,6 +22,7 @@ class PostsController < ApplicationController
 
   # POST /posts or /posts.json
   def create
+    authorize Post
     @post = Post.new(post_params)
     @post.user_id = current_user.id
     # current_user->complains.new()
@@ -38,6 +39,7 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
+    authorize @post
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to @post, notice: "Post was successfully updated." }
@@ -51,6 +53,7 @@ class PostsController < ApplicationController
 
   # DELETE /posts/1 or /posts/1.json
   def destroy
+    authorize @post
     @post.destroy
     respond_to do |format|
       format.html { redirect_to posts_url, notice: "Post was successfully destroyed." }

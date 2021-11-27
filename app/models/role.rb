@@ -1,4 +1,5 @@
 class Role < ApplicationRecord
+    has_many :users
     @@sadmin = 1
     @@admin = 2
     @@customer = 3
