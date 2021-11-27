@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :invoices, only: [:create]
+  resources :invoices, only: [:create, :index]
   # resources :roles
   resources :accounts
   resources :outlets

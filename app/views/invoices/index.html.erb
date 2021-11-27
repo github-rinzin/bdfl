@@ -1,31 +1,36 @@
 <p id="notice"><%= notice %></p>
-
 <h1>Invoices</h1>
-
-<table>
+<table id="invoice-table" class="table table-sm table-bordered">
   <thead>
     <tr>
+      <th>Product Name</th>
       <th>Qty</th>
       <th>Price</th>
       <th>Total</th>
-      <th colspan="3"></th>
+      <th data-orderable="false"></th>
     </tr>
   </thead>
-
   <tbody>
     <% @invoices.each do |invoice| %>
       <tr>
+        <td><%= invoice.product.name %></td>
         <td><%= invoice.qty %></td>
         <td><%= invoice.price %></td>
         <td><%= invoice.total %></td>
-        <td><%= link_to 'Show', invoice %></td>
-        <td><%= link_to 'Edit', edit_invoice_path(invoice) %></td>
-        <td><%= link_to 'Destroy', invoice, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <% if !invoice.order_completed %>
+            <button class="btn btn-sm btn-success">Deliver</button>
+          <% else %>
+            Delivered
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
 <br>
-
-<%= link_to 'New Invoice', new_invoice_path %>
+<script>
+  $(document).ready(() => {
+    $("#invoice-table").dataTable();
+  });
+</script>

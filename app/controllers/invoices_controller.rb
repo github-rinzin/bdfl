@@ -2,9 +2,10 @@ class InvoicesController < ApplicationController
   # before_action :set_invoice, only: %i[ show edit update destroy ]
 
   # GET /invoices or /invoices.json
-  # def index
-  #   @invoices = Invoice.all
-  # end
+  def index
+    
+    @invoices = Invoice.where(order_completed: false)
+  end
 
   # GET /invoices/1 or /invoices/1.json
   # def show
@@ -30,7 +31,7 @@ class InvoicesController < ApplicationController
       # save the quantity
       @product.save
       # initialize new invoice instances
-      @invoice = Invoice.new()
+      @invoice = Invoice.new
       # assign the invoice quantity
       @invoice.qty = params[:quantity]
       # assign the price for product
