@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_24_053617) do
+ActiveRecord::Schema.define(version: 2021_11_27_095603) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -40,12 +40,38 @@ ActiveRecord::Schema.define(version: 2021_11_24_053617) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "customers", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "role_id", default: 3, null: false
+    t.index ["email"], name: "index_customers_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
+    t.index ["role_id"], name: "index_customers_on_role_id"
+  end
+
+  create_table "invoices", force: :cascade do |t|
+    t.string "qty"
+    t.string "price"
+    t.string "total"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "product_id"
+    t.index ["product_id"], name: "index_invoices_on_product_id"
+  end
+
   create_table "outlets", force: :cascade do |t|
     t.string "name"
     t.string "location"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id", null: false
+    t.integer "customer_id", null: false
+    t.index ["customer_id"], name: "index_outlets_on_customer_id"
     t.index ["user_id"], name: "index_outlets_on_user_id"
   end
 
@@ -64,6 +90,14 @@ ActiveRecord::Schema.define(version: 2021_11_24_053617) do
     t.integer "quantity"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "outlet_id", null: false
+    t.index ["outlet_id"], name: "index_products_on_outlet_id"
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -77,15 +111,21 @@ ActiveRecord::Schema.define(version: 2021_11_24_053617) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "is_admin", default: false
     t.boolean "is_blocked", default: false
     t.boolean "has_outlet", default: false
+    t.integer "role_id", default: 2, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["role_id"], name: "index_users_on_role_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "customers", "roles"
+  add_foreign_key "invoices", "products"
+  add_foreign_key "outlets", "customers"
   add_foreign_key "outlets", "users"
   add_foreign_key "posts", "users"
+  add_foreign_key "products", "outlets"
+  add_foreign_key "users", "roles"
 end

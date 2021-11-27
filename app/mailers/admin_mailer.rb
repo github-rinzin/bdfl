@@ -6,6 +6,6 @@ class AdminMailer < ApplicationMailer
   #   en.admin_mailer.invite_user.subject
   #
   def invite_user
-    mail(to: params[:email], subject: "BDFL portal registration")
+    mail(to: params[:email], subject: "Bhutan Duty Free Limited")
   end
 end

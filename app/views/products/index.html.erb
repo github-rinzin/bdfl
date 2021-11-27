@@ -1,19 +1,58 @@
-<div class="d-flex align-items-center justify-content-around flex-row flex-wrap mx-auto">
-  <% @products.each do |product| %>
-    <div class="card m-1 shadow" style="width: 18rem;">
-      <%= image_tag  product.image, class: "card-img-top"%>
-      <div class="card-body">
-        <h5 class="card-title"><%= product.name %></h5>
-        <p class="card-text">Price: Nu.<%= product.price %> <br>
-          <% if product.quantity == 0 %>
-            Out of stock!
-          <% else %>
-            Quantity:<%= product.quantity %> Units
-          </p>
-         <%= render 'invoice-modal-btn' %>
+ 
+<p id="" class=" text-dark pt-2"><%= notice %></p>
+<% if current_user.is_super_admin || current_user.is_admin  %>
+  <div class="w-75 mx-auto mt-2">
+    <%= render 'products/modal/new' %>
+    <table id="product-table" class="table table-sm table-bordered">
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Option</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @products.each do | product | %>
+          <tr>
+            <td><%= product.name %></td>
+            <td><%= product.price %></td>
+            <td><%= product.quantity %></td>
+            <td>
+              <% if !product.has_stock %>
+                <%= link_to 'Restock', edit_product_path(product), class: "btn btn-sm btn-warning text-light" %>
+              <%else%>
+                <%= link_to 'Edit', edit_product_path(product), class: "btn btn-sm btn-danger text-light" %>
+              <% end %>
+            </td>
+          </tr>
         <% end %>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    $(document).ready( () => {
+      $('#product-table').dataTable();
+    });
+  </script>
+
+  <div class="d-flex align-items-center justify-content-around flex-row flex-wrap mx-auto">
+    <% @products.each do |product| %>
+      <div class="card m-1 shadow" style="width: 18rem;">
+        <%= image_tag  product.image, class: "card-img-top"%>
+        <div class="card-body">
+          <h5 class="card-title"><%= product.name %></h5>
+          <p class="card-text">Price: Nu.<%= product.price %> <br>
+            <% if product.quantity == 0 %>
+              Out of stock!
+            <% else %>
+              Quantity:<%= product.quantity %> Units
+            </p>
+            <%= render 'invoice-modal-btn', product:product %>
+          <% end %>
+        </div>
       </div>
-    </div>
-  <% end %>
-</div>
-<hr>
+    <% end %>
+  </div>
+  <%= render "invoice-modal" %>
+<% end %>

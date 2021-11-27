@@ -21,31 +21,35 @@ class ProductsController < ApplicationController
 
   # POST /products or /products.json
   def create
-    @product = Product.new(product_params)
+    @product = current_user.outlet.products.create(product_params)
     # user.avatar.attach(params[:avatar])
     # @product.image.attach(params[:image])
-    respond_to do |format|
+    # respond_to do |format|
       if @product.save
-        format.html { redirect_to @product, notice: "Product was successfully created." }
-        format.json { render :show, status: :created, location: @product }
+        # format.html { redirect_to @product, notice: "Product was successfully created." }
+        # format.json { render :show, status: :created, location: @product }
+        redirect_back fallback_location: products_url, notice: "Product was successfully created."
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+        # format.html { render :new, status: :unprocessable_entity }
+        # format.json { render json: @product.errors, status: :unprocessable_entity }
+        redirect_back fallback_location: products_url, notice: :unprocessable_entity
       end
-    end
+    # end
   end
 
   # PATCH/PUT /products/1 or /products/1.json
   def update
-    respond_to do |format|
+    # respond_to do |format|
       if @product.update(product_params)
-        format.html { redirect_to @product, notice: "Product was successfully updated." }
-        format.json { render :show, status: :ok, location: @product }
+        # format.html { redirect_to @product, notice: "Product was successfully updated." }
+        # format.json { render :show, status: :ok, location: @product }
+        redirect_to products_url, notice: "Product was successfully updated."
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+        # format.html { render :edit, status: :unprocessable_entity }
+        # format.json { render json: @product.errors, status: :unprocessable_entity }
+        redirect_back fallback_location: products_url, notice: :unprocessable_entity
       end
-    end
+    # end
   end
 
   # DELETE /products/1 or /products/1.json

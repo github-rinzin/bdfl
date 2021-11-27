@@ -11,17 +11,17 @@ class User < ApplicationRecord
   end
 
 
-  # admin
-  def is_admin 
-    self.is_admin
+  # super admin
+  def is_super_admin 
+    self.role_id == Role.sadmin
   end
-  # customer care
-  def is_customer_care
-    self.is_customer_care
+  # bdfl admin
+  def is_admin
+    self.role_id == Role.admin
   end
-  # complainer
-  def is_complaier
-    self.is_complaier
+  # customer
+  def is_customer
+    self.role_id == Role.customer
   end
 
 

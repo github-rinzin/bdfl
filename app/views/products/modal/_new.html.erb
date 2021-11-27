@@ -1,0 +1,40 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-dark btn-sm mb-2" data-toggle="modal" data-target="#newModal">
+  Add product
+</button>
+<!-- Modal -->
+<div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newModalLabel">New Product</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= form_with url: products_path do |form| %>
+          <div class="form-group field">
+            <%= form.label :name %>
+            <%= form.text_field :"product[name]", class: "form-control" %>
+          </div>
+          <div class="form-group field">
+            <%= form.label :price %>
+            <%= form.number_field :"product[price]", class: "form-control" %>
+          </div>
+          <div class="form-group field">
+            <%= form.label :quantity %>
+            <%= form.number_field :"product[quantity]", class: "form-control" %>
+          </div>
+          <div class="form-group field">
+            <%= form.label :image %>
+            <%= form.file_field :"product[image]", class: "form-control-file", class: "form-control" %>
+          </div>
+          <div class="actions">
+            <%= form.submit "Add", class: "btn btn-sm btn-dark"%>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
