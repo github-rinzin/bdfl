@@ -3,8 +3,18 @@ class InvoicesController < ApplicationController
 
   # GET /invoices or /invoices.json
   def index
-    
-    @invoices = Invoice.where(order_completed: false)
+    authorize Invoice
+    if current_user.is_super_admin?
+      @invoices = Invoice.where(order_completed: false)
+    elsif current_user.is_admin?
+      if current_user.has_outlet
+        @invoices = Invoice.where(product_id: Product.where(outlet_id: current_user.outlet.id).ids)
+      else
+        @invoices = []
+      end
+    elsif current_user.is_customer?
+      @invoices = Invoice.where(user_id: current_user.id)
+    end
   end
 
   # GET /invoices/1 or /invoices/1.json
@@ -22,6 +32,7 @@ class InvoicesController < ApplicationController
 
   # POST /invoices or /invoices.json
   def create
+    authorize Invoice
     # get product
     @product = Product.find(params[:product_id])
     # if product has stock then proceed else cancle
@@ -36,6 +47,8 @@ class InvoicesController < ApplicationController
       @invoice.qty = params[:quantity]
       # assign the price for product
       @invoice.price = @product.price
+      # assign invoice address
+      @invoice.address = params[:address]
       # calculate the total invoice price
       total = (params[:quantity]).to_i * (@product.price).to_i
       # save the total
@@ -72,13 +85,14 @@ class InvoicesController < ApplicationController
   # end
 
   # DELETE /invoices/1 or /invoices/1.json
-  def destroy
-    @invoice.destroy
-    respond_to do |format|
-      format.html { redirect_to invoices_url, notice: "Invoice was successfully destroyed." }
-      format.json { head :no_content }
-    end
-  end
+  # def destroy
+  #   authorize @invoice
+  #   @invoice.destroy
+  #   respond_to do |format|
+  #     format.html { redirect_to invoices_url, notice: "Invoice was successfully destroyed." }
+  #     format.json { head :no_content }
+  #   end
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.

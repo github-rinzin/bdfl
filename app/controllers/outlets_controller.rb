@@ -23,10 +23,8 @@ class OutletsController < ApplicationController
 
   # POST /outlets or /outlets.json
   def create
-  
-    
+      authorize Outlet
       @outlet = Outlet.new(outlet_params)
-      
       # # get user id for request
       # @id = params[:user_id]
       # # find user with above id
@@ -62,6 +60,7 @@ class OutletsController < ApplicationController
 
   # PATCH/PUT /outlets/1 or /outlets/1.json
   def update
+    authorize @outlet
     respond_to do |format|
       if @outlet.update(outlet_params)
         format.html { redirect_to @outlet, notice: "Outlet was successfully updated." }
@@ -75,7 +74,6 @@ class OutletsController < ApplicationController
 
   # DELETE /outlets/1 or /outlets/1.json
   def destroy
-    if current_user.is_super_admin 
       @user = User.find(@outlet.user_id)
       @user.has_outlet = false
       @user.save()
@@ -84,9 +82,6 @@ class OutletsController < ApplicationController
         format.html { redirect_to outlets_url, notice: "Outlet was successfully destroyed." }
         format.json { head :no_content }
       end
-    else
-      redirect_to root_path
-    end
   end
 
   private

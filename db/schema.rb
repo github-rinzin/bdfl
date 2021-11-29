@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_27_133700) do
+ActiveRecord::Schema.define(version: 2021_11_29_144310) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 2021_11_27_133700) do
     t.integer "product_id"
     t.integer "user_id", null: false
     t.boolean "order_completed", default: false
+    t.string "address"
     t.index ["product_id"], name: "index_invoices_on_product_id"
     t.index ["user_id"], name: "index_invoices_on_user_id"
   end

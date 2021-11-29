@@ -1,92 +1,95 @@
 <%= render "components/alert" %>
-<div class=" mx-auto mt-4">
-  <div class="d-flex flex-row align-items-center">
-    <h1>Accounts</h1>
-    <%= render "modal" %>
-  </div>
-  <table class="table table-sm table-bordered" id="accounts-datatable">
-    <thead>
-      <tr class="text-capitalize">
-        <th>cid</th>
-        <th>name</th>
-        <th>phone</th>
-        <th>email</th>
-        <th>Is blocked</th>
-        <th>Has outlet</th>
-        <th>Role</th>
-        <th>Edit Role</th>
-        <th data-orderable="false">Operation</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @users.each do |user| %>
-        <tr>
-          <td><%= user.cid %></td>
-          <td><%= user.name %></td>
-          <td><%= user.phone %></td>
-          <td><%= user.email %></td>
-          <td><%= !user.is_blocked ? "Blocked" : "Not Blocked" %></td>
-          <td>
-            <% if !user.has_outlet %>
-              <%= render 'outlet-modal', user:user %>
-            <% else %>
-            Yes
-            <% end %>
-          </td>
-          <td><%= user.role.name %></td>
-          <td>
-            <% if current_user.is_super_admin? %>
-              <%= form_with url: role_path  do |form|  %>
-                <input type="hidden" name="user" value="<%= user.id%>">
-                <select name="role" id="role">
-                  <% @roles.each do |role| %>
-                    <option value="<% role.id %>"><%= role.name%></option>
-                  <% end %>
-                </select>
-                <%= form.submit "Change", class: "btn btn-sm"%>
+<% if policy(:account).index? %>
+  <div class=" mx-auto mt-4">
+    <div class="d-flex flex-row align-items-center">
+      <h1>Accounts</h1>
+      <%= render "modal" %>
+    </div>
+    <table class="table table-sm table-bordered" id="accounts-datatable">
+      <thead>
+        <tr class="text-capitalize">
+          <th>cid</th>
+          <th>name</th>
+          <th>phone</th>
+          <th>email</th>
+          <th>Has outlet</th>
+          <th>Role</th>
+          <th>Edit Role</th>
+          <th data-orderable="false">Operation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user.cid %></td>
+            <td><%= user.name %></td>
+            <td><%= user.phone %></td>
+            <td><%= user.email %></td>
+            <% if policy(:authorization).bdfl_admin? %>
+              <% if !user.has_outlet && user.is_admin?%>
+                <td>
+                  <%= render 'outlet-modal', user:user %>
+                </td>
+              <% else %>
+                <td class="border-2 border-success">
+                </td>
               <% end %>
             <% end %>
-          </td>
-          <td class="d-flex align-items-center">
-            <%= render 'accounts/form/block', user:user %>
-            <%= render "accounts/form/destroy", user:user %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
-<!-- Modal -->
-<div class="modal fade" id="assignOutletModal" tabindex="-1" role="dialog" aria-label_tagledby="assignOutletModalabel_tag" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="assignOutletModalabel_tag">Assign outlet</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label_tag="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <%= form_with url: outlets_path do |form| %>
-          <div class="form-group">
-            <%= form.label:"Outlent Name" %>
-            <%= form.text_field :"outlet[name]", class: "form-control form-control-sm" %>
-          </div>
-          <div class="form-group">
-            <%= form.label:"Address line 1" %>
-            <%= form.text_field :"outlet[location]", class: "form-control form-control-sm" %>
-          </div>
-          <input id="id-input" type="hidden" name="outlet[user_id]">
-          <div class="actions">
-            <%= form.submit class: "btn btn-success btn-sm" %>
-          </div>
+            <td><%= user.role.name %></td>
+            <td>
+              <%= form_with url: changerole_path, class: "d-flex flex-row align-items-center justify-content-center"  do |form|  %>
+                <input type="hidden" name="user" value="<%= user.id%>">
+                <select name="role" id="role" class="form-control form-control-sm">
+                  <% @roles.each do |role| %>
+                    <% if role.id != user.role.id %>
+                      <option value="<%= role.id %>"><%= role.name%></option>
+                    <% end %>
+                  <% end %>
+                </select>
+                <%= form.submit "save", class: "btn btn-sm btn-warning"%>
+              <% end %>
+            </td>
+            <td class="d-flex align-items-center">
+              <%= render 'accounts/form/block', user:user %>
+              <%= render "accounts/form/destroy", user:user %>
+            </td>
+          </tr>
         <% end %>
+      </tbody>
+    </table>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="assignOutletModal" tabindex="-1" role="dialog" aria-label_tagledby="assignOutletModalabel_tag" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="assignOutletModalabel_tag">Assign outlet</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label_tag="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= form_with url: outlets_path do |form| %>
+            <div class="form-group">
+              <%= form.label:"Outlent Name" %>
+              <%= form.text_field :"outlet[name]", class: "form-control form-control-sm" %>
+            </div>
+            <div class="form-group">
+              <%= form.label:"Address line 1" %>
+              <%= form.text_field :"outlet[location]", class: "form-control form-control-sm" %>
+            </div>
+            <input id="id-input" type="hidden" name="outlet[user_id]">
+            <div class="actions">
+              <%= form.submit class: "btn btn-success btn-sm" %>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<script>
-  $(document).ready(() => {
-    $("#accounts-datatable").dataTable();
-  });
-</script>
+  <script>
+    $(document).ready(() => {
+      $("#accounts-datatable").dataTable();
+    });
+  </script>
+<% end %>
