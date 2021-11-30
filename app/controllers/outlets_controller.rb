@@ -3,13 +3,13 @@ class OutletsController < ApplicationController
 
   # GET /outlets or /outlets.json
   def index
-    
-      @outlets = Outlet.all
-   
+    authorize Outlet
+    @outlets = Outlet.all
   end
 
   # GET /outlets/1 or /outlets/1.json
   def show
+    authorize @outlet
   end
 
   # GET /outlets/new
@@ -74,6 +74,7 @@ class OutletsController < ApplicationController
 
   # DELETE /outlets/1 or /outlets/1.json
   def destroy
+    authorize @outlet
       @user = User.find(@outlet.user_id)
       @user.has_outlet = false
       @user.save()

@@ -7,11 +7,17 @@ class OutletPolicy < ApplicationPolicy
   end
 
   def index?
-    false
+    @user.is_super_admin?
   end
 
   def show?
-    false
+    if @user.is_super_admin?
+      true
+    elsif @user.has_outlet && @outlet.user.id == @user.id 
+      true
+    else
+      false
+    end
   end
 
   def create?
@@ -19,11 +25,11 @@ class OutletPolicy < ApplicationPolicy
   end
 
   def new?
-    create?
+    false
   end
 
   def update?
-    if @user.is_super_admin? || @outlet.user.id == @user.id
+    if @user.is_super_admin? || @user.has_outlet && @outlet.user.id == @user.id
       true
     else
       false

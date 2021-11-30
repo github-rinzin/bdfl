@@ -15,7 +15,11 @@ class ProductPolicy < ApplicationPolicy
   end
 
   def create?
-    user.is_admin? || user.is_super_admin? && user.has_outlet && !user.is_blocked
+    if user.is_super_admin? || user.has_outlet && user.is_admin? && !user.is_blocked
+      true
+    else
+      false
+    end
   end
 
   def new?
@@ -23,16 +27,15 @@ class ProductPolicy < ApplicationPolicy
   end
 
   def update?
-    user.is_super_admin? || user.id == product.outlet.user_id && !user.is_blocked
+    user.is_super_admin? || user.id == product.outlet.user_id
   end
 
   def edit?
-    # user.is_super_admin? || user.id == product.user_id
-    true
+    update?
   end
 
   def destroy?
-    user.is_super_admin? || user.id == product.user_id
+    update?
   end
 
   class Scope

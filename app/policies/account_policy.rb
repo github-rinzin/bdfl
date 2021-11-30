@@ -8,4 +8,8 @@ class AccountPolicy <   Struct.new(:user, :account)
   def update?
     user.is_super_admin?
   end
+  def blocked?
+    !user.is_blocked
+  end
 end
+

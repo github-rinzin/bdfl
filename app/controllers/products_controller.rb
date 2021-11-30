@@ -5,7 +5,13 @@ class ProductsController < ApplicationController
   # GET /products or /products.json
   def index
     authorize Product
-    @products = Product.all
+    if current_user.is_admin? && current_user.has_outlet
+      @products = current_user.outlet.products
+    elsif current_user.is_super_admin? || current_user.is_customer?
+      @products = Product.all
+    else
+      @products = []
+    end
   end
 
   # GET /products/1 or /products/1.json

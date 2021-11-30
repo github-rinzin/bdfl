@@ -3,4 +3,6 @@
 <%= render 'form', outlet: @outlet %>
 
 <%= link_to 'Show', @outlet %> |
-<%= link_to 'Back', outlets_path %>
+<% if policy(:outlet).index? %>
+  <%= link_to 'Back', outlets_path %>
+<% end %>
