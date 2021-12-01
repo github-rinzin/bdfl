@@ -25,13 +25,6 @@ class OutletsController < ApplicationController
   def create
       authorize Outlet
       @outlet = Outlet.new(outlet_params)
-      # # get user id for request
-      # @id = params[:user_id]
-      # # find user with above id
-      # @user = User.find(@id)
-      # # change has outlet
-      # @user.has_outlet = !$user.has_outlet
-
       respond_to do |format|
         # if !$user.has_outlet
           if @outlet.save

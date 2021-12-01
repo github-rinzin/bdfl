@@ -8,4 +8,7 @@ class InvoiceMailer < ApplicationMailer
   def sendInvoice
     mail to: params[:email],  subject: "Bhutan Duty Free Limited"
   end
+  def deliverProduct
+    mail to: params[:email],  subject: "Bhutan Duty Free Limited"
+  end
 end

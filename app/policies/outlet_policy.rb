@@ -7,13 +7,13 @@ class OutletPolicy < ApplicationPolicy
   end
 
   def index?
-    @user.is_super_admin?
+    @user.is_super_admin? && user.is_blocked
   end
 
   def show?
-    if @user.is_super_admin?
+    if @user.is_super_admin? && user.is_blocked
       true
-    elsif @user.has_outlet && @outlet.user.id == @user.id 
+    elsif @user.has_outlet && @outlet.user.id == @user.id  && user.is_blocked
       true
     else
       false

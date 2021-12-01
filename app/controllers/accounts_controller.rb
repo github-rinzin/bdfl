@@ -9,7 +9,7 @@ class AccountsController < ApplicationController
     def create
         authorize :account, :create?
         @email = params[:email]
-        # AdminMailer.with(email:@email).invite_user.deliver
+        AdminMailer.with(email:@email).invite_user.deliver
         redirect_to accounts_url, notice: "User invited successfully"
     end
     def update

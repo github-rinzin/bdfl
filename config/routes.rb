@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :invoices, only: [:create, :index]
+  resources :invoices, only: [:create, :index, :update]
   resources :roles
   resources :accounts
   resources :outlets
@@ -10,4 +10,6 @@ Rails.application.routes.draw do
 
   root "root#index"
   post "role", to: "root#changeRole", as: "changerole"
+  post "deliver/invoice", to: "root#deliver_product", as: "deliver"
+  
 end

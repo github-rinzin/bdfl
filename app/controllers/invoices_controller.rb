@@ -5,7 +5,7 @@ class InvoicesController < ApplicationController
   def index
     authorize Invoice
     if current_user.is_super_admin?
-      @invoices = Invoice.where(order_completed: false)
+      @invoices = Invoice.all
     elsif current_user.is_admin?
       if current_user.has_outlet
         @invoices = Invoice.where(product_id: Product.where(outlet_id: current_user.outlet.id).ids)
@@ -61,7 +61,7 @@ class InvoicesController < ApplicationController
         # save the invoice and if successfull proceed else cancle and send error message
       if @invoice.save
         # send invoice message to user
-        # InvoiceMailer.with(email:current_user.email, invoice:@invoice).sendInvoice.deliver
+        InvoiceMailer.with(email:current_user.email, invoice:@invoice).sendInvoice.deliver
         redirect_back fallback_location: products_url, notice: "You order was successfull, Please check your mailbox"
       else
         redirect_back fallback_location: products_url, notice: "You order was unsuccessfull"
@@ -72,17 +72,17 @@ class InvoicesController < ApplicationController
   end
 
   # PATCH/PUT /invoices/1 or /invoices/1.json
-  # def update
-  #   respond_to do |format|
-  #     if @invoice.update(invoice_params)
-  #       format.html { redirect_to @invoice, notice: "Invoice was successfully updated." }
-  #       format.json { render :show, status: :ok, location: @invoice }
-  #     else
-  #       format.html { render :edit, status: :unprocessable_entity }
-  #       format.json { render json: @invoice.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
+  def update
+    respond_to do |format|
+      if @invoice.update(order_completed: true)
+        format.html { redirect_to @invoice, notice: "Invoice was successfully updated." }
+        format.json { render :show, status: :ok, location: @invoice }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @invoice.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   # DELETE /invoices/1 or /invoices/1.json
   # def destroy

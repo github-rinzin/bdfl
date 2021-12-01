@@ -7,15 +7,15 @@ class InvoicePolicy < ApplicationPolicy
   end
 
   def index?
-    true
+    user.is_blocked
   end
 
   def show?
-    false
+    user.is_blocked
   end
 
   def create?
-    @user.is_customer?
+    @user.is_customer? && user.is_blocked
   end
 
   def new?

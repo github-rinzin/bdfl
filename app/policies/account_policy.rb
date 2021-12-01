@@ -9,7 +9,7 @@ class AccountPolicy <   Struct.new(:user, :account)
     user.is_super_admin?
   end
   def blocked?
-    !user.is_blocked
+    user.is_blocked
   end
 end
 

@@ -9,7 +9,9 @@
       <th>Total</th>
       <th>Order placed on</th>
       <th>Delivered on</th>
-      <th data-orderable="false"></th>
+      <% if !current_user.is_customer? %>
+        <th data-orderable="false"></th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
@@ -21,16 +23,23 @@
           <td><%= invoice.price %></td>
           <td><%= invoice.total %></td>
           <td><%= invoice.created_at.strftime("%A %d-%b-%Y") %></td>
-          <td><%= invoice.updated_at.strftime("%A %d-%b-%Y") %></td>
           <td>
-            <% if policy(:authorization).outlet_admin? %>
+            <% if invoice.order_completed %>
+              <%= invoice.updated_at.strftime("%A %d-%b-%Y") %>
+            <% end %>
+          </td>
+          <% if !current_user.is_customer? %>
+            <td>
               <% if !invoice.order_completed %>
-                <button class="btn btn-sm btn-success">Deliver</button>
+                <%= form_with url: deliver_url do |form| %>
+                  <input type="hidden" name="id" value="<%= invoice.id %>">
+                  <button type="submit" class="btn btn-sm btn-success">Deliver</button>
+                <% end %>
               <% else %>
                 Delivered
               <% end %>
-            <% end %>
-          </td>
+            </td>
+          <% end %>
         </tr>
       <% end %>
     <% end %>

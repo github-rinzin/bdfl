@@ -7,7 +7,7 @@ class ProductPolicy < ApplicationPolicy
   end
 
   def index?
-    !user.is_blocked 
+    user.is_blocked 
   end
 
   def show?

@@ -1,4 +1,5 @@
 class Role < ApplicationRecord
+    validates :name, presence: true
     has_many :users
     @@sadmin = 1
     @@admin = 2

@@ -12,7 +12,14 @@ class RootController < ApplicationController
         end
     end
     def deliver_product
-        # send email to user
-        # change the status 
+        @invoice = Invoice.find(params[:id])
+        @invoice.order_completed = true
+        if @invoice.save
+            @user = User.find(@invoice.user_id)
+            InvoiceMailer.with(email: @user.email, invoice: @invoice).deliverProduct.deliver
+            redirect_to invoices_path, notice: "Dilivered successfully"
+        else
+            redirect_to invoices_path, notice: "Failed to deliver"
+        end
     end
 end
