@@ -1,13 +1,15 @@
-<p id="notice"><%= notice %></p>
-<p>
-  <strong>Name:</strong>
-  <%= @outlet.name %>
-</p>
-<p>
-  <strong>Location:</strong>
-  <%= @outlet.location %>
-</p>
-<%= link_to 'Edit', edit_outlet_path(@outlet) %>
-<% if policy(:outlet).index? %>
-  <%= link_to 'Back', outlets_path %>
-<% end %>
+<div class="mx-auto w-50 mt-4">
+  <p id="notice"><%= notice %></p>
+  <p>
+    <strong>Name:</strong>
+    <%= @outlet.name %>
+  </p>
+  <p>
+    <strong>Location:</strong>
+    <%= @outlet.location %>
+  </p>
+  <%= link_to 'Edit', edit_outlet_path(@outlet) %>
+  <% if policy(:outlet).index? %>
+    <%= link_to 'Back', outlets_path %>
+  <% end %>
+</div>

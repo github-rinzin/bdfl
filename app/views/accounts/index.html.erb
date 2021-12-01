@@ -20,40 +20,42 @@
       </thead>
       <tbody>
         <% @users.each do |user| %>
-          <tr>
-            <td><%= user.cid %></td>
-            <td><%= user.name %></td>
-            <td><%= user.phone %></td>
-            <td><%= user.email %></td>
-            <% if policy(:authorization).bdfl_admin? %>
-              <% if !user.has_outlet && user.is_admin?%>
-                <td>
-                  <%= render 'outlet-modal', user:user %>
-                </td>
-              <% else %>
-                <td class="border-2 border-success">
-                </td>
+          <% if !user.is_super_admin? %>
+            <tr>
+              <td><%= user.cid %></td>
+              <td><%= user.name %></td>
+              <td><%= user.phone %></td>
+              <td><%= user.email %></td>
+              <% if policy(:authorization).bdfl_admin? %>
+                <% if !user.has_outlet && user.is_admin?%>
+                  <td>
+                    <%= render 'outlet-modal', user:user %>
+                  </td>
+                <% else %>
+                  <td class="border-2 border-success">
+                  </td>
+                <% end %>
               <% end %>
-            <% end %>
-            <td><%= user.role.name %></td>
-            <td>
-              <%= form_with url: changerole_path, class: "d-flex flex-row align-items-center justify-content-center"  do |form|  %>
-                <input type="hidden" name="user" value="<%= user.id%>">
-                <select name="role" id="role" class="form-control form-control-sm">
-                  <% @roles.each do |role| %>
-                    <% if role.id != user.role.id %>
-                      <option value="<%= role.id %>"><%= role.name%></option>
+              <td><%= user.role.name %></td>
+              <td>
+                <%= form_with url: changerole_path, class: "d-flex flex-row align-items-center justify-content-center"  do |form|  %>
+                  <input type="hidden" name="user" value="<%= user.id%>">
+                  <select name="role" id="role" class="form-control form-control-sm">
+                    <% @roles.each do |role| %>
+                      <% if role.id != user.role.id %>
+                        <option value="<%= role.id %>"><%= role.name%></option>
+                      <% end %>
                     <% end %>
-                  <% end %>
-                </select>
-                <%= form.submit "save", class: "btn btn-sm btn-warning"%>
-              <% end %>
-            </td>
-            <td class="d-flex align-items-center">
-              <%= render 'accounts/form/block', user:user %>
-              <%= render "accounts/form/destroy", user:user %>
-            </td>
-          </tr>
+                  </select>
+                  <%= form.submit "save", class: "btn btn-sm btn-warning"%>
+                <% end %>
+              </td>
+              <td class="d-flex align-items-center">
+                <%= render 'accounts/form/block', user:user %>
+                <%= render "accounts/form/destroy", user:user %>
+              </td>
+            </tr>
+          <% end %>
         <% end %>
       </tbody>
     </table>

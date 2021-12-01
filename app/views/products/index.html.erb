@@ -1,4 +1,4 @@
-<p id="" class=" text-dark pt-2"><%= notice %></p>
+<%= render "components/alert" %>
 <% if current_user.is_super_admin? || current_user.is_admin?  %>
   <div class="w-75 mx-auto mt-2">
     <% if policy(Product).create? %>

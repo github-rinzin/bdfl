@@ -1,8 +1,8 @@
+<div class="mx-auto w-50 mt-4">
 <h1>Editing Outlet</h1>
-
 <%= render 'form', outlet: @outlet %>
-
 <%= link_to 'Show', @outlet %> |
 <% if policy(:outlet).index? %>
   <%= link_to 'Back', outlets_path %>
 <% end %>
+</div>

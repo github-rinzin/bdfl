@@ -1,29 +1,33 @@
-<p id="notice"><%= notice %></p>
-<div class="d-flex flex-row align-items-center">
-  <h1>Outlets</h1>
-</div>
-<table id="outlet-table" class="table table-sm table-bordered">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Location</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @outlets.each do |outlet| %>
+<div class="mx-auto">
+  <p id="notice"><%= notice %></p>
+  <div class="d-flex flex-row align-items-center">
+    <h1>Outlets</h1>
+  </div>
+  <table id="outlet-table" class="table table-sm table-bordered">
+    <thead>
       <tr>
-        <td><%= outlet.name %></td>
-        <td><%= outlet.location %></td>
-        <td><%= link_to 'Edit', edit_outlet_path(outlet), class: "btn btn-sm text-light btn-warning" %>
-          <%= link_to 'Destroy', outlet, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm text-light btn-danger" %></td>
+        <th>Name</th>
+        <th>Location</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-<br>
-<script>
-  $(document).ready(() => {
-    $("#outlet-table").dataTable();
-  });
-</script>
+    </thead>
+    <tbody>
+      <% @outlets.each do |outlet| %>
+        <% if !outlet.user.is_super_admin? %>
+          <tr>
+            <td><%= outlet.name %></td>
+            <td><%= outlet.location %></td>
+            <td><%= link_to 'Edit', edit_outlet_path(outlet), class: "btn btn-sm text-light btn-warning" %>
+              <%= link_to 'Destroy', outlet, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm text-light btn-danger" %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+  <br>
+  <script>
+    $(document).ready(() => {
+      $("#outlet-table").dataTable();
+    });
+  </script>
+</div>

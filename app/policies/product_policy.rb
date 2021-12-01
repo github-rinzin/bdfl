@@ -49,7 +49,6 @@ class ProductPolicy < ApplicationPolicy
     end
 
     private
-
     attr_reader :user, :scope
   end
 end
